@@ -56,7 +56,7 @@ void RunDebugger()
 
 
     if (process.GetState() == lldb::eStateStopped) {
-         lldb::SBThread thread = process.GetSelectedThread();
+        lldb::SBThread thread = process.GetSelectedThread();
 
         while (true) {
             lldb::SBEvent event;
