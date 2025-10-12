@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+### Original program given from llvm documentation
+### https://lldb.llvm.org/use/tutorials/implementing-standalone-scripts.html
+
+
 import lldb
 import os
 
