@@ -47,16 +47,6 @@ void RunDebugger()
     target.BreakpointCreateByLocation(file_spec, 6, 0);
     target.BreakpointCreateByName("main");
 
-    // target.BreakpointCreateByLocation(file_spec, 10, 0);
-    // target.BreakpointCreateByLocation(file_spec, 11, 0); 
-    // target.BreakpointCreateByLocation(file_spec, 12, 0); 
-    
-    // target.BreakpointCreateByLocation(file_spec, 14, 0);
-    // target.BreakpointCreateByLocation(file_spec, 16, 0);
-    // target.BreakpointCreateByLocation(file_spec, 18, 0); 
-
-    // target.BreakpointCreateByLocation(file_spec, 20, 0); 
-
     char buffer[4096];
     lldb::SBProcess process = target.LaunchSimple(nullptr, nullptr, getcwd(buffer, 4096));
 
