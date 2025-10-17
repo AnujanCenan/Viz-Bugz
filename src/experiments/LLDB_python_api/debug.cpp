@@ -12,9 +12,7 @@
 #include <lldb/API/SBDefines.h>
 #include <lldb/API/SBDeclaration.h>
 #include <unistd.h>
-#include <vector>
 
-constexpr int TIMEOUT = 5;
 void printVar(lldb::SBValue v)
 {
 
