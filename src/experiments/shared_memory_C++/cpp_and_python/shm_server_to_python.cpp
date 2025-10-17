@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <stdio.h>
+
 #include <cstdlib>  // for exit function
 #include <unistd.h> // for sleep function
 

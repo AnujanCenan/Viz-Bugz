@@ -13,7 +13,7 @@ def main():
     shm.buf[:len(encoded_message)] = encoded_message
 
     initial_data = shm.buf[:27].tobytes().decode()
-    print(f"Initial data from C++: {initial_data}")
+    print(f"Data to send to C++: {initial_data}")
     shm.unlink()
 
 if __name__ == "__main__":
