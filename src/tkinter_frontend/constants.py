@@ -1,5 +1,8 @@
 from typing import Final    # for marking constants
 
+SHARED_MEMORY_REGION_NAME = "/viz_bugz_shm"
+SEMAPHORE_NAME = "/viz_bugz_sem"
+
 MEMORY_GRID_HEIGHT: Final = 800
 MEMORY_GRID_WIDTH: Final = 800
 MEMORY_GRID_SIDE_LENGTH: Final = 20
