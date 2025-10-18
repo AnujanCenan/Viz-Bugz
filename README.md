@@ -23,3 +23,7 @@ This is a drunken attempt at creating a tool that visualises your program's (vir
 3. Get Load Address vs Get Address
 - Part of my "getting the address of variables"
 - I think Get Address gets virtual address
+
+
+4. Compilation Command for using boost was 
+**clang++ -I/opt/homebrew/opt/boost/include -std=c++11 use_boost.cpp -o use_boost.out -L/opt/homebrew/opt/boost/lib -lboost_process -lboost_filesystem**
