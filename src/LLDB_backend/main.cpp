@@ -15,6 +15,9 @@ constexpr int8_t WRITE_RES = 2;
 constexpr int8_t READ_RES = 4;
 constexpr int8_t WRITE_REQ = 8;
 
+constexpr const char* SHARED_MEMORY_REGION_NAME = "/viz_bugz_shm";
+constexpr const char* SEMAPHORE_NAME = "/viz_bugz_sem";
+
 struct Memory_Layout {
     char _buf[buff_size];        // 0 - 3999 bytes of memory
     int _message_length;         // 4000 - 4003 bytes
@@ -56,7 +59,7 @@ private:
 
 int main()
 {
-    int fd = shm_open("/viz-bugz-shm", O_CREAT | O_RDWR | S_IRUSR | S_IWUSR);
+    int fd = shm_open(SHARED_MEMORY_REGION_NAME, O_CREAT | O_RDWR | S_IRUSR | S_IWUSR);
     if (fd == -1) {
         perror("SHM_OPEN error: ");
         return 1;
@@ -71,10 +74,10 @@ int main()
         nullptr, sizeof(Memory_Layout), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0
     ));
 
-    sem_t *sem_ptr = sem_open("semaphore" , O_CREAT, 1, 0);
+    sem_t *sem_ptr = sem_open(SEMAPHORE_NAME , O_CREAT, 1, 0);
     
-
-    while (true) {
+    std::string message = "";
+    while (message != "quit") {
         // Get file to debug from python frontend using shared memory
         // Initialise the debugger class
         // Return success
@@ -98,9 +101,9 @@ int main()
         // Same idea but with step into ideas
     }
 
+    shm_unlink(SHARED_MEMORY_REGION_NAME);
+    sem_unlink(SEMAPHORE_NAME);
 
-    
-    
     return 0;
 }
 
