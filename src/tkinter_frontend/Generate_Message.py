@@ -34,5 +34,6 @@ def add_breakpoint(line_num: str):
 def remove_breakpoint_message(line_num: str):
     return "1R" + line_num + '\0'
 
-
+def set_project_dir_message(dir: str):
+    return "1D" + dir + '\0'
 
