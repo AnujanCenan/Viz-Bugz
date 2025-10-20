@@ -60,7 +60,6 @@ private:
 
 int main()
 {
-    // umask(0000);
     // SEMAPHORE
     sem_t *sem_ptr = sem_open(SEMAPHORE_NAME , O_CREAT | O_EXCL , 0777, 1);
 
