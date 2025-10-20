@@ -6,7 +6,7 @@ This is a drunken attempt at creating a tool that visualises your program's (vir
 
 1.Compilation command (via terminal) is 
 
-**clang++ -std=c++11 debug.cpp -L/opt/homebrew/Cellar/llvm/21.1.3/lib -llldb -I/opt/homebrew/Cellar/llvm/21.1.3/include -o debug.out**
+**clang++ -std=c++11 -L/opt/homebrew/Cellar/llvm/21.1.3/lib -llldb -I/opt/homebrew/Cellar/llvm/21.1.3/include debug.cpp -o debug.out**
 
 (Installed the llvm libraries via homebrew)
 
@@ -23,3 +23,7 @@ This is a drunken attempt at creating a tool that visualises your program's (vir
 3. Get Load Address vs Get Address
 - Part of my "getting the address of variables"
 - I think Get Address gets virtual address
+
+
+4. Compilation Command for using boost was 
+**clang++ -I/opt/homebrew/opt/boost/include -std=c++11 use_boost.cpp -o use_boost.out -L/opt/homebrew/opt/boost/lib -lboost_process -lboost_filesystem**

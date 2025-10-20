@@ -1,5 +1,6 @@
 Python:
 - posix-ipc
-
+- pylint --- purely for linting purposes
 C++
 - LLVM library
+- Boost -- for executing build commands built by users

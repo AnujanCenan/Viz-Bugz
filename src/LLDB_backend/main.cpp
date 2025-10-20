@@ -7,6 +7,7 @@
 #include <unistd.h>     // close, ftruncate
 #include <cstring>      // memcpy
 #include <semaphore.h>  // For synchronization (essential!)
+#include <sys/stat.h>
 
 constexpr int buff_size = 4000;
 
@@ -14,6 +15,9 @@ constexpr int8_t READ_REQ = 1;
 constexpr int8_t WRITE_RES = 2;
 constexpr int8_t READ_RES = 4;
 constexpr int8_t WRITE_REQ = 8;
+
+constexpr const char* SHARED_MEMORY_REGION_NAME = "/viz_bugz_sm";
+constexpr const char* SEMAPHORE_NAME = "/viz_bugz_semaphore";
 
 struct Memory_Layout {
     char _buf[buff_size];        // 0 - 3999 bytes of memory
@@ -56,7 +60,11 @@ private:
 
 int main()
 {
-    int fd = shm_open("/viz-bugz-shm", O_CREAT | O_RDWR | S_IRUSR | S_IWUSR);
+    // SEMAPHORE
+    sem_t *sem_ptr = sem_open(SEMAPHORE_NAME , O_CREAT | O_EXCL , 0777, 1);
+
+    // SHARED MEMORY
+    int fd = shm_open(SHARED_MEMORY_REGION_NAME, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     if (fd == -1) {
         perror("SHM_OPEN error: ");
         return 1;
@@ -68,39 +76,38 @@ int main()
     }
 
     Memory_Layout *region_ptr = static_cast<Memory_Layout *>(mmap(
-        nullptr, sizeof(Memory_Layout), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0
+        NULL, sizeof(Memory_Layout), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0
     ));
 
-    sem_t *sem_ptr = sem_open("semaphore" , O_CREAT, 1, 0);
+    region_ptr->_buf[0] = '\0';
+    region_ptr->_message_length = 0;
     
+    std::string message = "";
+    int count = 0;
+    while (count < 8000000 && message != "quit") {
+        sem_wait(sem_ptr);
+        if (region_ptr->_buf[0] == '0') {
+            count++;
+            sem_post(sem_ptr);
+            continue;
+        }
 
-    while (true) {
-        // Get file to debug from python frontend using shared memory
-        // Initialise the debugger class
-        // Return success
-        // Get requested breakpoints
-        // Add any requested break points
-        // Return success
-        // Get launch request
-        // Start the debugging while loop (on a separate thread?)
-        // Await process
-            //  That process should hit a break point
-        // This process should return success including line number/some way of 
-        // giving the python frontend a way of knowing which line the user is on
-        
-        // Get STEP OVER request:
-        // This process should forward that step over to the Debug program
-        // The debug program runs thread.stepover() and returns variable info back
-        // to here
-        // We return variable info back to python and also current line information
+        char cmd = region_ptr->_buf[1];
+        switch (cmd) {
+        case 'D':
+            const char *dir_path = &(region_ptr->_buf[2]);
+            std::cout << "Project Directory: " <<  std::string(dir_path) << '\n';
+        }
 
-        // Get STEP INTO request:
-        // Same idea but with step into ideas
+        sem_post(sem_ptr);
+
+        std::cout << count << '\n';
+        count++;
     }
 
+    shm_unlink(SHARED_MEMORY_REGION_NAME);
+    sem_unlink(SEMAPHORE_NAME);
 
-    
-    
     return 0;
 }
 
