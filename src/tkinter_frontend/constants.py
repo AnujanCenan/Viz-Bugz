@@ -1,7 +1,7 @@
 from typing import Final    # for marking constants
 
-SHARED_MEMORY_REGION_NAME = "/viz_bugz_shm"
-SEMAPHORE_NAME = "/viz_bugz_sem"
+SHARED_MEMORY_REGION_NAME = "viz_bugz_sm"
+SEMAPHORE_NAME = "/viz_bugz_semaphore"
 
 MEMORY_GRID_HEIGHT: Final = 800
 MEMORY_GRID_WIDTH: Final = 800
@@ -12,3 +12,5 @@ NUM_COLS: Final = MEMORY_GRID_WIDTH // MEMORY_GRID_SIDE_LENGTH
 
 WORD_SIZE: Final = 8
 HALF_WORD_SIZE: Final = WORD_SIZE // 2
+
+MAX_MESSAGE_SIZE = 4000
