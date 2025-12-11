@@ -12,9 +12,9 @@ from constants import (SHARED_MEMORY_REGION_NAME,
     SEMAPHORE_NAME, MEMORY_GRID_HEIGHT, MEMORY_GRID_WIDTH, NUM_ROWS, NUM_COLS,
     MAX_MESSAGE_SIZE)
 
-from grid_drawing import GridDrawing
-from lldb_interaction import step_over
-from generate_message import set_project_dir_message, quit_message
+from grid_drawings import GridDrawing
+from lldb_interactions import step_over
+from generate_messages import set_project_dir_message, quit_message
 
 
 
