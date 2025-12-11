@@ -1,8 +1,16 @@
+'''
+Trying to get data *to* a client via a shared memory segment
+'''
+
 from multiprocessing import shared_memory
 
+
 def main():
+    '''
+    Main function for receiving data from some 'server'
+    '''
     key = "myregion"
-    
+
     shm = shared_memory.SharedMemory(key, create=False)
 
     initial_data = shm.buf[:27].tobytes().decode()

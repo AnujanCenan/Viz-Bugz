@@ -1,29 +1,41 @@
+'''
+Primary module responsible for hosting the (Pythong Tkinter) frontend.
+'''
 import os
 import tkinter as tk        # normal
-import tkinter.ttk as ttk   # themed
 from tkinter import filedialog
-
-from constants import *
-from Memory_Object import Memory_Object
-from Grid_Drawing import Grid_Drawing
-
-from LLDB_Interaction import *
+from multiprocessing import shared_memory
 
 import posix_ipc
-from Generate_Message import *
-from multiprocessing import shared_memory
+
+from constants import (SHARED_MEMORY_REGION_NAME,
+    SEMAPHORE_NAME, MEMORY_GRID_HEIGHT, MEMORY_GRID_WIDTH, NUM_ROWS, NUM_COLS,
+    MAX_MESSAGE_SIZE)
+
+from grid_drawing import GridDrawing
+from lldb_interaction import step_over
+from generate_message import set_project_dir_message
+
 
 
 sem = posix_ipc.Semaphore(SEMAPHORE_NAME)
 shm = shared_memory.SharedMemory(SHARED_MEMORY_REGION_NAME, create=False)     # default to false
 
+
 def send_message(message: str):
+    '''
+    Sends a message via a semaphore
+    '''
     sem.acquire()
     encoded = message.encode('utf-8')
     shm.buf[:len(encoded)] = encoded
     sem.release()
 
+
 def read_message():
+    '''
+    Reads a message contained within a semaphore
+    '''
     sem.acquire()
     data = shm.buf[:MAX_MESSAGE_SIZE].tobytes().decode()
     sem.release()
@@ -36,29 +48,28 @@ greeting = tk.Label(text="VIZ-BUGZ")
 greeting.pack()
 
 memory_grid = tk.Canvas(
-    window, 
-    height=MEMORY_GRID_HEIGHT, 
-    width=MEMORY_GRID_WIDTH, 
+    window,
+    height=MEMORY_GRID_HEIGHT,
+    width=MEMORY_GRID_WIDTH,
     bg="grey",
-    highlightthickness=0, 
+    highlightthickness=0,
     borderwidth=0
 )
 
 print(f"Creating memory grid of size {NUM_ROWS} (rows) by {NUM_COLS} (columns)")
-gd = Grid_Drawing(memory_grid)
+gd = GridDrawing(memory_grid)
 gd.create_grid()
 gd.label_memory_grid()
 memory_grid.pack(side="left", padx=50)
 
-mem_object = Memory_Object("x", "int", 3, 4, 42343123, 5)
-
-next_memory = 92
-next_memory = gd.add_memory_object(mem_object, next_memory, "red")
 
 
-#### File selection - for selecting the current working directory
 def select_file():
-    print(f"PWD = {os.getcwd()}")       # gets cwd from **where** the python program was launched from
+    '''
+    File selection - for selecting the current working directory
+    '''
+    print(f"PWD = {os.getcwd()}")       # gets cwd from **where**
+                                        # the python program was launched from
     dir_path = filedialog.askdirectory(initialdir=os.getcwd())
     print(f"File path = {dir_path}")
     message  = set_project_dir_message(dir_path)
@@ -73,7 +84,11 @@ open_button.pack(pady=20)
 
 ### Event Handling
 
+
 def arrow_right(_: tk.Event):
+    '''
+    Detecting a right arrow press, triggering a "step-over" debugging step
+    '''
     step_over(gd)
 
 window.bind("<Right>", arrow_right)
@@ -81,7 +96,7 @@ window.bind("<Right>", arrow_right)
 window.mainloop()
 
 
-while (True):
+while True:
     # sem.acquire()
 
     next_event = 0
@@ -95,12 +110,12 @@ while (True):
             pass
         case 3:
             pass
-        
 
     # sem.release()
-    
+
     input_mes = "Q"
-    if (input_mes == "Q"): break
+    if input_mes == "Q":
+        break
 
 
 
