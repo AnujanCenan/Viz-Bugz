@@ -14,7 +14,7 @@ def main():
 
     sem = posix_ipc.Semaphore(sem_key)
 
-    shm = shared_memory.SharedMemory(shm_key, create=False, track=False)
+    shm = shared_memory.SharedMemory(shm_key, create=False)
 
     while True:
         sem.acquire()
