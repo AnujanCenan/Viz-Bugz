@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
+'''
 
-import lldb
+Original program given from llvm documentation
+https://lldb.llvm.org/use/tutorials/implementing-standalone-scripts.html
+
+Below we modify (simplify) this program to get comfortable with some of the
+various components of the LLDB API (for Python). Note the SetAsync(False) - this 
+is from the example but diminishes the API's capabilities (no asynchronous 
+programming). A later goal is to work with the LLDB API with SetAsync(True)
+'''
 import os
-
-def disassemble_instructions(insts):
-    for i in insts:
-        print(i)
-
+import lldb
 
 # Set the path to the executable to debug
-exe = "./a.out"
+EXE = "./a.out"
 
 # Create a new debugger instance
 debugger = lldb.SBDebugger.Create()
@@ -19,10 +23,7 @@ debugger = lldb.SBDebugger.Create()
 # a little tricky.  We do this by setting the async mode to false.
 debugger.SetAsync(False)
 
-# Create a target from a file and arch
-print("Creating a target for '%s'" % exe)
-
-target = debugger.CreateTargetWithFileAndArch(exe, lldb.LLDB_ARCH_DEFAULT)
+target = debugger.CreateTargetWithFileAndArch(EXE, lldb.LLDB_ARCH_DEFAULT)
 
 
 if target:
