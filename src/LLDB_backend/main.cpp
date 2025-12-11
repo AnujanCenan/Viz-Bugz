@@ -95,8 +95,14 @@ int main()
         char cmd = region_ptr->_buf[1];
         switch (cmd) {
         case 'D':
+        {
             const char *dir_path = &(region_ptr->_buf[2]);
             std::cout << "Project Directory: " <<  std::string(dir_path) << '\n';
+            break;
+        }
+        case 'Q':
+            message = "quit";
+            break;
         }
 
         sem_post(sem_ptr);

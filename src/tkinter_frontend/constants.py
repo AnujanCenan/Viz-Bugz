@@ -1,3 +1,7 @@
+'''
+Docstring for tkinter_frontend.constants
+'''
+
 from typing import Final    # for marking constants
 
 SHARED_MEMORY_REGION_NAME = "viz_bugz_sm"
