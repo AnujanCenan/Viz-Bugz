@@ -5,7 +5,7 @@ Handling all drawing functionality on the frontend Tkinter canvas
 import tkinter as tk
 from constants import(NUM_COLS, NUM_ROWS, MEMORY_GRID_HEIGHT,
     MEMORY_GRID_SIDE_LENGTH, MEMORY_GRID_WIDTH, WORD_SIZE, HALF_WORD_SIZE)
-from memory_objects import MemoryObject
+from memory_object import MemoryObject
 
 class GridDrawing:
     '''

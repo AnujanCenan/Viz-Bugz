@@ -2,7 +2,7 @@
 Trigger front end actions *after* C++ backend has completed an associated action
 '''
 
-from grid_drawings import GridDrawing
+from grid_drawing import GridDrawing
 def step_over(gd: GridDrawing):
     '''
     Reflects the actions of stepping over an line of code in the debugging target
