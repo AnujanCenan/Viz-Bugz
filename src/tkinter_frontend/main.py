@@ -93,7 +93,7 @@ def arrow_right(_: tk.Event):
 
 window.bind("<Right>", arrow_right)
 
-def quit():
+def close_app():
     '''
     Detects the frontend being quit, and sends the corresponding message to the
     C++ backend
@@ -104,7 +104,7 @@ def quit():
 
 window.mainloop()
 
-quit()
+close_app()
 
 
 # widgets:
