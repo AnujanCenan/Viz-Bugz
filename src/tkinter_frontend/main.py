@@ -14,7 +14,7 @@ from constants import (SHARED_MEMORY_REGION_NAME,
 
 from grid_drawing import GridDrawing
 from lldb_interaction import step_over
-from generate_message import set_project_dir_message
+from generate_message import set_project_dir_message, quit_message
 
 
 
@@ -93,30 +93,18 @@ def arrow_right(_: tk.Event):
 
 window.bind("<Right>", arrow_right)
 
+def quit():
+    '''
+    Detects the frontend being quit, and sends the corresponding message to the
+    C++ backend
+    '''
+    print("Quitting...")
+    message = quit_message()
+    send_message(message)
+
 window.mainloop()
 
-
-while True:
-    # sem.acquire()
-
-    next_event = 0
-
-    match next_event:
-        case 0:
-            pass
-        case 1:
-            pass
-        case 2:
-            pass
-        case 3:
-            pass
-
-    # sem.release()
-
-    input_mes = "Q"
-    if input_mes == "Q":
-        break
-
+quit()
 
 
 # widgets:
